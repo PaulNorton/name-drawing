@@ -1,9 +1,25 @@
 import unittest
 import random
+from NameDrawing import NameDrawing
 
 class TestNameDrawing(unittest.TestCase):
 	def setUp(self):
-		self.drawing = ''
+		self.drawing = NameDrawing(['Tom', 'Richard', 'Harry'])
+
+	def test_drawing__everybodyIsGettingSomebodyAGift(self):
+		results = self.drawing.draw()
+		for key in self.drawing.names:
+			self.assertTrue(key in results.keys())
+
+        def test_drawing__everybodyIsGettingAGift(self):
+                results = self.drawing.draw()
+                for key in self.drawing.names:
+                        self.assertTrue(key in results.values())
+
+        def test_drawing__noRandomPeopleInDrawing(self):
+                results = self.drawing.draw()
+                for key in results.keys():
+                        self.assertTrue(key in self.drawing.names)
 
 	def test_choice(self):
 		choices = ['a', 'b', 'c']
