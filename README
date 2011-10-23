@@ -1,1 +1,6 @@
 This is a Python app built by Peter and Paul Norton.
+
+RUN TESTS
+
+	cd src
+	python NameDrawingTest.py
