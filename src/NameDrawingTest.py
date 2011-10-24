@@ -18,8 +18,13 @@ class TestNameDrawing(unittest.TestCase):
 
         def test_drawing__noRandomPeopleInDrawing(self):
                 results = self.drawing.draw()
-                for key in results.keys():
+                for key in results:
                         self.assertTrue(key in self.drawing.names)
+
+        def test_drawing__nobodyGetsThemselfAGiftLikeKevinFromTheOffice(self):
+                results = self.drawing.draw()
+                for gifter, giftee in results.items():
+                        self.assertNotEqual(gifter, giftee)
 
 	def test_choice(self):
 		choices = ['a', 'b', 'c']
