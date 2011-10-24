@@ -3,7 +3,17 @@ from NameDrawing import NameDrawing
 
 class TestNameDrawing(unittest.TestCase):
 	def setUp(self):
-		self.drawing = NameDrawing(['Tom', 'Richard', 'Harry'])
+		self.familyUnits = [
+			['Tom'], ['Richard', 'Susan'], ['Harry', 'Ginny', 'Albus']
+		]
+		people = []
+		for unit in self.familyUnits:
+			for person in unit:
+				exclude = list(unit)
+				exclude.remove(person)
+				people.append({'name': person, 'exclude': exclude})
+				
+		self.drawing = NameDrawing(people)
 
 	def test_drawing__everybodyIsGettingSomebodyAGift(self):
 		results = self.drawing.draw()
@@ -25,6 +35,13 @@ class TestNameDrawing(unittest.TestCase):
 		results = self.drawing.draw()
 		for gifter, giftee in results.items():
 			self.assertNotEqual(gifter, giftee, gifter+" is getting themself a gift!")
+			
+	def test_drawing__nobodyGetsFamilyUnitMemberAGift(self):
+		results = self.drawing.draw()
+		for unit in self.familyUnits:
+			for gifter in unit:
+				giftee = results[gifter]
+				self.assertFalse(giftee in unit, gifter+" is getting their family unit member, "+giftee+", a gift")
 			
 	def test_drawing__oneThousandTimes(self):
 		#run one thousand times to see if we get stuck...

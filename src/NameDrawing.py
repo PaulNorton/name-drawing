@@ -1,6 +1,7 @@
 class NameDrawing:
-	def __init__(self, names):
-		self.names = names
+	def __init__(self, people):
+		self.people = people
+		self.names = [ person['name'] for person in people ]
 
 	def draw(self):
-		return { 'Tom':'Richard', 'Richard':'Harry', 'Harry':'Tom' }
+		return { 'Tom':'Ginny', 'Richard':'Harry', 'Susan': 'Albus', 'Harry':'Tom', 'Ginny':'Richard', 'Albus':'Susan' }
