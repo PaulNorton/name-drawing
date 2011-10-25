@@ -37,4 +37,37 @@ class NameDrawing:
                 results[gifter['name']] = giftees.pop(random_index)['name']
             if restart == False:
                 return results
+
+print "Welcome to the NameDrawer!"
+print
+print "For each family, type names in this format: Tom, Dick, Harry"
+print "When you're finished, just hit return."
+print
+
+familyUnits = []
+i = 1
+while True:
+    people = raw_input("Family #"+str(i)+": ")
+    if people.lower() == "":
+        break
+    family = people.split(", ")
+    familyUnits.append(family)
+    i += 1
+print
+
+people = []
+for unit in familyUnits:
+    for person in unit:
+        exclude = list(unit)
+        exclude.remove(person)
+        people.append({'name': person, 'exclude': exclude})
+                
+drawing = NameDrawing(people)
+results = drawing.draw()
+finalResults = []
+for i in range(len(results.keys())):
+    finalResults.append(results.keys()[i] + " : " + results.values()[i])
+
+for j in finalResults:
+    print j
                 
