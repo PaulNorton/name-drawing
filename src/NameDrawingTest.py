@@ -4,7 +4,9 @@ from NameDrawing import NameDrawing
 class TestNameDrawing(unittest.TestCase):
 	def setUp(self):
 		self.familyUnits = [
-			['Tom'], ['Richard', 'Susan'], ['Harry', 'Ginny', 'Albus']
+			['Tom'], 
+			['Richard', 'Susan'], 
+			['Harry', 'Ginny', 'Albus'],
 		]
 		people = []
 		self.list_of_names = []
@@ -44,11 +46,12 @@ class TestNameDrawing(unittest.TestCase):
 			for gifter in unit:
 				giftee = results[gifter]
 				self.assertFalse(giftee in unit, gifter+" is getting their family unit member, "+giftee+", a gift")
-			
+    
 	def test_drawing__oneThousandTimes(self):
 		#run one thousand times to see if we get stuck...
 		for i in range(1000):
-			self.drawing.draw()
+			self.drawing.draw()			
 
 if __name__ == '__main__':
 	unittest.main()
+	
