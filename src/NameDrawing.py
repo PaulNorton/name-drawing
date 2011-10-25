@@ -1,6 +1,16 @@
 import random
 
 class NameDrawing:
+    @staticmethod
+    def convertFamilyUnits(familyUnits):
+        people = []
+        for unit in familyUnits:
+            for person in unit:
+                exclude = list(unit)
+                exclude.remove(person)
+                people.append({'name': person, 'exclude': exclude})
+        return people
+        
     def __init__(self, list):
         self.names = list
 
