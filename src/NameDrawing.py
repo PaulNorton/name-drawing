@@ -1,73 +1,69 @@
 import random
 
+
+welcome_message = """Welcome to the NameDrawer!\n
+For each family, type names in this format: Tom, Dick, Harry
+When you're finished, just hit return.\n"""
+
+
+class Person:
+    def __init__(self, name, family):
+        self.name = name
+        self.family = set(family)
+
+    def is_valid_giftee(self, possible_gifter):
+        return self.name not in possible_gifter.family
+
+
 class NameDrawing:
+    def __init__(self, family_units):
+        self.people = self.convert_family_units(family_units)
+
     @staticmethod
-    def convertFamilyUnits(familyUnits):
-        people = []
-        for unit in familyUnits:
-            for person in unit:
-                exclude = list(unit)
-                exclude.remove(person)
-                people.append({'name': person, 'exclude': exclude})
-        return people
-        
-    def __init__(self, list):
-        self.names = list
+    def convert_family_units(family_units):
+        return [Person(name, family) for family in family_units for name in family]
 
     def draw(self):
-        if len(self.names) < 2:
-            return 'Not enough people in the list!'
+        if len(self.people) < 2:
+            raise Exception('Not enough people in the list!')
+
         while True:
-            restart = False
-            results = {}
-            giftees = list(self.names)
-            for gifter in self.names:
-                while True:
-                    random_index = random.randint(0, (len(giftees) - 1))
-                    possible_giftee = giftees[random_index]
-                    if possible_giftee['name'] not in gifter['exclude'] and possible_giftee != gifter:
-                        break
-                    else:
-                        restart = True
-                        for remaining_giftee in giftees:
-                            if remaining_giftee['name'] not in gifter['exclude'] and remaining_giftee != gifter:
-                                restart = False
-                        if restart == True:
-                            break
-                results[gifter['name']] = giftees.pop(random_index)['name']
-            if restart == False:
+            results = self.attempt_draw()
+            if results is not None:
                 return results
 
-print "Welcome to the NameDrawer!"
-print
-print "For each family, type names in this format: Tom, Dick, Harry"
-print "When you're finished, just hit return."
-print
+    def attempt_draw(self):
+        results = {}
+        giftees = set(self.people)
+        for gifter in self.people:
+            valid_giftees = [person for person in giftees if person.is_valid_giftee(gifter)]
+            if not valid_giftees:
+                return None
+            giftee = random.choice(valid_giftees)
+            results[gifter.name] = giftee.name
+            giftees.remove(giftee)
+        return results
 
-familyUnits = []
-i = 1
-while True:
-    people = raw_input("Family #"+str(i)+": ")
-    if people.lower() == "":
-        break
-    family = people.split(", ")
-    familyUnits.append(family)
-    i += 1
-print
 
-people = []
-for unit in familyUnits:
-    for person in unit:
-        exclude = list(unit)
-        exclude.remove(person)
-        people.append({'name': person, 'exclude': exclude})
-                
-drawing = NameDrawing(people)
-results = drawing.draw()
-finalResults = []
-for i in range(len(results.keys())):
-    finalResults.append(results.keys()[i] + " : " + results.values()[i])
+def get_input():
+    family_units = []
+    family_count = 1
+    print(welcome_message)
+    while True:
+        people = input(f'Family #{family_count}: ')
+        if people == "":
+            break
+        family = people.split(", ")
+        family_units.append(family)
+        family_count += 1
+    return family_units
 
-for j in finalResults:
-    print j
-                
+
+if __name__ == '__main__':
+    family_units = get_input()
+    drawing = NameDrawing(family_units)
+    results = drawing.draw()
+
+    print('\n(Gifter : Giftee)')
+    for gifter, giftee in results.items():
+        print(f'{gifter} : {giftee}')
