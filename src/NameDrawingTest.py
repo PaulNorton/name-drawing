@@ -6,9 +6,11 @@ from NameDrawing import NameDrawing
 class TestNameDrawing(unittest.TestCase):
 	def setUp(self):
 		self.familyUnits = [
-			['Tom'],
-			['Richard', 'Susan'],
-			['Harry', 'Ginny', 'Albus'],
+			['David Joseph', 'Katie', 'Michael', 'Elizabeth', 'Anna', 'Ally'],
+			['David Thomas', 'Patrick', 'Sarah', 'Justin', 'Lucy'],
+			['Rachel', 'John', 'Jacob', 'Josh'],
+			['Monica', 'Grace', 'Emma', 'MJ', 'Tommy', 'Matt'],
+			['Laura', 'Joseph', 'Francis', 'Sally', 'Tim']
 		]
 		self.list_of_names = [name for family in self.familyUnits for name in family]
 		self.drawing = NameDrawing(self.familyUnits)
